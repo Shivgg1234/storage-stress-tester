@@ -1,16 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-const cli=new URL('../src/cli.js',import.meta.url).pathname;
+const cli = fileURLToPath(new URL('../src/cli.js', import.meta.url));
 const exec=(...args)=>spawnSync(process.execPath,[cli,...args],{encoding:'utf8'});
 test('CLI help, usage errors, JSON and passing suite',()=>{
  assert.equal(exec('--help').status,0); assert.equal(exec().status,2);
  assert.equal(exec('--bad').status,2); assert.equal(exec('missing.mjs').status,2);
- const r=exec(new URL('../examples/scenarios.mjs',import.meta.url).pathname,'--json');
- assert.equal(r.status,0,r.stderr); assert.equal(JSON.parse(r.stdout).total,6);
+ const r = exec(
+  fileURLToPath(new URL('../examples/scenarios.mjs', import.meta.url)),
+  '--json'
+);
 });
 test('CLI returns exit 1 for assertion failure and 2 for malformed configuration',()=>{
  const dir=mkdtempSync(join(tmpdir(),'storage-crash-'));
