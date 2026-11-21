@@ -1,0 +1,67 @@
+{
+  "name": "storage-stress-tester",
+  "version": "0.1.0",
+  "description": "Deterministic browser-storage fault injection and migration contract tests.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./browser": {
+      "types": "./src/browser.d.ts",
+      "import": "./src/browser.js"
+    }
+  },
+  "bin": {
+    "storage-stress-tester": "./src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "PUBLISHING.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "test:browser": "node --test test/browser.integration.js",
+    "check": "node --check src/index.js && node --check src/browser.js && node --check src/cli.js && npm run typecheck",
+    "demo": "node examples/demo.js",
+    "prepack": "npm run check && npm test",
+    "typecheck": "tsc --noEmit --strict --module NodeNext --moduleResolution NodeNext --target ES2022 test/types.ts --types node --lib ES2022,DOM,ESNext.Disposable"
+  },
+  "keywords": [
+    "localstorage",
+    "testing",
+    "fault-injection",
+    "migration",
+    "playwright",
+    "storage"
+  ],
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "playwright": "^1.65.1",
+    "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shivgg1234/storage-stress-tester.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Shivgg1234/storage-stress-tester/issues"
+  },
+  "homepage": "https://github.com/Shivgg1234/storage-stress-tester#readme",
+  "author": {
+    "name": "Shivgg1234",
+    "url": "https://github.com/Shivgg1234"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
